@@ -1,0 +1,23 @@
+body{
+  width: 290px;
+  margin: auto;
+}
+
+.image{
+  max-width: 250px;
+}
+
+.post{
+  margin: 12px auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 12px 20px;
+}
+
+a{
+  text-decoration: none;
+}
+
+a.active{
+  text-decoration: underline;
+}
