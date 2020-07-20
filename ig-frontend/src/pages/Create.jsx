@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-
 export default function Create() {
-    const [description, setDescription] = useState('')
-    const [file, setFile] = useState(null)
+    const [description, setDescription] = useState('');
+    const [file, setFile] = useState(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData();
 
         //To send multipart data to Strapi we need to have a field name DATA
-        formData.set('data', JSON.stringify(description));
+        formData.set('data', JSON.stringify({description}));
 
         //Files is a Strapi thing and after the dot is the name of the key in the collection file
         formData.append('files.image', file);
