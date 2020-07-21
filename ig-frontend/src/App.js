@@ -12,13 +12,13 @@ export default function App() {
     <div className="App">
       <h2>Quick Start Project</h2>
 
-      <BrowserRouter>
+  {    <BrowserRouter>
       <Nav/>
         <Switch>
           <Route path='/' exact  component={Home} />
           <Route path='/create' exact  component={Create} />
         </Switch>
-      </BrowserRouter>
+      </BrowserRouter>}
     </div>
   )
 
