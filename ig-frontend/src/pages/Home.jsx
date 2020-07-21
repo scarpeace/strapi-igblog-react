@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import {Link} from 'react-router-dom'
 
 import Post from '../components/Post'
 
@@ -20,7 +21,9 @@ export default function Home() {
     return (
         <div className="Home">
             {posts.map((post, index) => (
-                <Post key={index} post={post} />
+                <Link key={index} to={`/${post.id}`}>
+                <Post likes={post.likes} description={post.description} imgUrl={post.image && post.image.url} />
+                </Link>
             ))}
         </div>
     );

@@ -5,7 +5,7 @@ import './App.css';
 import Home from './pages/Home'
 import Create from './pages/Create'
 import Nav from './components/Nav'
-
+import SinglePost from './pages/SinglePost'
 
 export default function App() {
   return (
@@ -16,7 +16,8 @@ export default function App() {
       <Nav/>
         <Switch>
           <Route path='/' exact  component={Home} />
-          <Route path='/create' exact  component={Create} />
+          <Route path='/create' component={Create} />
+          <Route path='/:id' component={SinglePost} />
         </Switch>
       </BrowserRouter>}
     </div>

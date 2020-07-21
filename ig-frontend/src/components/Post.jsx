@@ -11,10 +11,10 @@ const formatImageUrl = (url) => {
 
 export default function Post(props) {
 
-    const { description, likes, image: { url } } = props.post
+    const { description, likes, imgUrl } = props
     return (
         <div className='post'>
-            <img className='image' src={formatImageUrl(url)} alt="Post Foto" />
+            <img className='image' src={formatImageUrl(imgUrl)} alt="Post Foto" />
             <h4>{description}</h4>
             <div>
                 <span>Likes: {likes}</span>
