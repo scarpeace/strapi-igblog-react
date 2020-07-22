@@ -42,6 +42,7 @@ export default function Login({ history }) {
                 <input
                     type="email"
                     name="email"
+                    autoComplete
                     id="email"
                     value={email}
                     onChange={e => {

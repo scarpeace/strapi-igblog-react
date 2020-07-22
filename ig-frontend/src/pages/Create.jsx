@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
+import { UserContext } from '../context/UserContext'
 
 export default function Create() {
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
+    const { user } = useContext(UserContext)
 
     async function handleSubmit(e) {
         e.preventDefault();
+
+        if (!user) {
+            setError('Please log in to perform this action')
+        }
 
         if (!description) {
             setError('Please add a Description')
@@ -26,20 +32,22 @@ export default function Create() {
         //Files is a Strapi thing and after the dot is the name of the key in the collection file
         formData.append('files.image', file);
 
-        try {
-            await axios.post('http://localhost:1337/posts', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-        } catch (err) {
+        await axios.post('http://localhost:1337/posts', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${user.jwt}`
+            }
+        }).then(response => {
+            console.log(response)
+        }).catch(err => {
             if (err.response) {
                 console.log('err.response', err.response);
                 setError(err.response.data.message)
             } else {
                 console.log(err);
             }
-        }
+        })
+
 
 
     }
@@ -58,11 +66,11 @@ export default function Create() {
                         setDescription(e.target.value)
                     }} />
 
-                <input type="file" 
-                placeholder='Add a File' 
-                onChange={(e) => {
-                    setFile(e.target.files[0])
-                    setError('')
+                <input type="file"
+                    placeholder='Add a File'
+                    onChange={(e) => {
+                        setFile(e.target.files[0])
+                        setError('')
                     }} />;
                 <button type='submit'> Submit </button>
             </form>
