@@ -13,12 +13,17 @@ module.exports = {
         const { user } = ctx.state; //User that made the request.
         const { post } = ctx.request.body; //ID of the Post
 
-        if (typeof post !== 'number') {
+
+        if (ctx.is('multipart')) {//If the Request is not a JSON
+            ctx.throw(400, 'Only make JSON requests')
+        }
+
+        if (typeof post !== 'number') { //Checking if its a number
             ctx.throw(400, 'Please only pass the ID for the Post')
         }
 
         const realPost = await strapi.services.post.findOne({ id: post }); // Find the POST
-        if (!realPost) {//If the POST1  on the DB doesn't exist
+        if (!realPost) {//If the POST on the DB doesn't exist
             ctx.throw('This post does not exist')
         }
 
@@ -30,12 +35,9 @@ module.exports = {
             ctx.throw(400, 'You already liked this post')
         }
 
-        if (ctx.is('multipart')) {//If the Request is not a JSON
-            ctx.throw(400, 'Only make JSON requests')
-        }
-
+        
         //If everything is OK create the like
-        entity = await strapi.services.likes.create({ post, user });
+        const entity = await strapi.services.likes.create({ post, user });
 
         //Update the like counter on the POST collection
         const { likes } = realPost
@@ -48,13 +50,13 @@ module.exports = {
     async delete(ctx) {
         const { user } = ctx.state;
         const { postId } = ctx.params;
-        const { post } = parseInt(postId);
+        const { post } = parseInt(postId);//It's important to parse the object to make sure it's a number when searching the DB
 
         if (typeof post !== 'number') { //Check if the params passed is a number
             ctx.throw(400, 'Please only use the ID of the Post')
         }
 
-        const entity = await strapi.services.like.delete({
+        const entity = await strapi.services.like.delete({//Deleting the like based on the POST id and the User ID
             post,
             user: user.id
         });
@@ -63,7 +65,7 @@ module.exports = {
             const {likes} = entity[0].post;
             const updatedPost = await strapi.services.post.update(
                 {id: post,},
-                {likes: likes -1})
+                {likes: likes -1})//This is cool
         }
         return sanitizeEntity(entity, { model: strapi.models.like });
     }
