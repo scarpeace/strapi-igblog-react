@@ -37,7 +37,7 @@ module.exports = {
 
         
         //If everything is OK create the like
-        const entity = await strapi.services.likes.create({ post, user });
+        entity = await strapi.services.likes.create({ post, user });
 
         //Update the like counter on the POST collection
         const { likes } = realPost

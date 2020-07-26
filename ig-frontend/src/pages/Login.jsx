@@ -9,7 +9,6 @@ export default function Login({ history }) {
 
 
     const { user, setUser } = useContext(UserContext);
-    console.log('user', user)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
@@ -42,7 +41,6 @@ export default function Login({ history }) {
                 <input
                     type="email"
                     name="email"
-                    autoComplete
                     id="email"
                     value={email}
                     onChange={e => {

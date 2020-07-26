@@ -62,6 +62,18 @@ export default function SinglePost(props) {
             })
     }
 
+    async function handleLike() {
+        await axios.post('http://localhost:1337/likes', { post: parseInt(id) }, {
+            headers: {
+                'Authorization': `Bearer ${user.jwt}`
+            }
+        }).then(response => {
+            console.log(response)
+        }).catch(err => {
+            console.log(err.response);
+        })
+    }
+
     useEffect(() => {
         fetchPost();
     }, [])
@@ -81,6 +93,12 @@ export default function SinglePost(props) {
                                 imgUrl={post.image && post.image.url}
                                 likes={post.likes}
                             />
+
+                            {user &&
+                                <>
+                                    <button onClick={handleLike}>Like</button>
+                                </>
+                            }
                             {user && <>
                                 <button onClick={handleDelete}>Delete this Post</button>
                                 <button onClick={() => setEdit(true)}>Edit this Post</button>
